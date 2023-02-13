@@ -1,14 +1,16 @@
+import editSvg from "../assets/edit.svg";
+import deleteSvg from "../assets/delete.svg";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { cargarContactos, deleteContact } from "../services/contact";
+import { loadContacts, deleteContact } from "../services/contact";
 
 const Contact = () => {
   const [contacts, setContacts] = useState([]);
 
   // Cargar todos los contactos
   const load = async () => {
-    const contacts = await cargarContactos();
+    const contacts = await loadContacts();
 
     setContacts(contacts.data);
   };
@@ -43,7 +45,7 @@ const Contact = () => {
 
   return (
     <>
-      <h1 className="my-5">Administrador de contactos</h1>
+      <h1 className="my-5">Libreta de contactos</h1>
       <div className="container mt-5 py-5">
         <div className="row">
           <div className="col-12 mb-5 d-flex justify-content-center">
@@ -77,7 +79,7 @@ const Contact = () => {
                       className="text-uppercase py-2 px-5 font-weight-bold btn btn-danger row"
                       onClick={() => deleteContactAlert(contact.id)}
                     >
-                      Eliminar
+                      <img src={deleteSvg} width={20} height={20} />
                     </button>
                     <button
                       type="button"
@@ -85,7 +87,7 @@ const Contact = () => {
                       className="text-uppercase py-2 px-5 font-weight-bold btn btn-info row"
                       onClick={() => navigate(`/contact/${contact.id}/edit`)}
                     >
-                      Editar
+                      <img src={editSvg} width={20} height={20} />
                     </button>
                   </div>
                 </div>

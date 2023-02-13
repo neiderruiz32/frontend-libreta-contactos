@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 import {
-  crearContacto,
-  editarContacto,
-  cargarContacto as cargar,
+  createContact,
+  editContact,
+  loadContact as load,
 } from "../services/contact";
 
 const NewContact = () => {
@@ -12,7 +12,7 @@ const NewContact = () => {
   const navigate = useNavigate();
 
   // State de contactos
-  const [contacto, guardarContacto] = useState({
+  const [contact, saveContact] = useState({
     nombres: "",
     apellidos: "",
     correo: "",
@@ -21,41 +21,41 @@ const NewContact = () => {
     direccion: "",
   });
 
-  // State para editar
-  const [editar, guardarEditar] = useState(false);
+  // State para edit
+  const [edit, setEdit] = useState(false);
 
   // Lee los datos del form
-  const actualizarState = (e: React.FormEvent<HTMLInputElement>) => {
-    guardarContacto({
-      ...contacto,
+  const updateState = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    saveContact({
+      ...contact,
       [e.target.name]: e.target.value,
     });
   };
 
-  // Cargar el contacto a editar
-  const cargarContacto = async (id: number) => {
-    const contacto = await cargar(id);
-    guardarContacto(contacto.data);
-    guardarEditar(true);
+  // Cargar el contact a editar
+  const loadContact = async (id: number) => {
+    const contact = await load(id);
+    saveContact(contact.data);
+    setEdit(true);
   };
 
   useEffect(() => {
     if (params.id) {
-      cargarContacto(params.id);
+      loadContact(params.id);
     }
   }, [params.id]);
 
-  // Enviar un contacto a la API
-  const crearOEditarContacto = async (e: React.FormEvent<HTMLFormElement>) => {
+  // Enviar un contact a la API
+  const createOrEditContact = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (editar) {
-      await editarContacto(params.id, contacto);
+    if (edit) {
+      await editContact(params.id, contact);
 
       // Redireccionar
       navigate("/");
     } else {
-      await crearContacto(contacto);
+      await createContact(contact);
 
       // Redireccionar
       navigate("/");
@@ -64,9 +64,7 @@ const NewContact = () => {
 
   return (
     <>
-      <h1 className="my-5">
-        {editar ? "Editar contacto" : "Agregar contacto"}
-      </h1>
+      <h1 className="my-5">{edit ? "Editar contacto" : "Agregar contacto"}</h1>
 
       <div className="container mt-5 py-5">
         <div className="row">
@@ -81,7 +79,7 @@ const NewContact = () => {
           </div>
           <div className="col-md-8 mx-auto">
             <form
-              onSubmit={crearOEditarContacto}
+              onSubmit={createOrEditContact}
               className="bg-white p-5 bordered"
             >
               <div className="form-group">
@@ -92,8 +90,8 @@ const NewContact = () => {
                   id="nombres"
                   name="nombres"
                   placeholder="Nombres"
-                  value={contacto.nombres}
-                  onChange={actualizarState}
+                  value={contact.nombres}
+                  onChange={updateState}
                 />
               </div>
 
@@ -105,8 +103,8 @@ const NewContact = () => {
                   id="apellidos"
                   name="apellidos"
                   placeholder="Apellidos"
-                  value={contacto.apellidos}
-                  onChange={actualizarState}
+                  value={contact.apellidos}
+                  onChange={updateState}
                 />
               </div>
 
@@ -118,8 +116,8 @@ const NewContact = () => {
                   id="correo"
                   name="correo"
                   placeholder="Correo"
-                  value={contacto.correo}
-                  onChange={actualizarState}
+                  value={contact.correo}
+                  onChange={updateState}
                 />
               </div>
 
@@ -131,8 +129,8 @@ const NewContact = () => {
                   id="telefono"
                   name="telefono"
                   placeholder="Teléfono"
-                  value={contacto.telefono}
-                  onChange={actualizarState}
+                  value={contact.telefono}
+                  onChange={updateState}
                 />
               </div>
 
@@ -144,8 +142,8 @@ const NewContact = () => {
                   id="celular"
                   name="celular"
                   placeholder="Celular"
-                  value={contacto.celular}
-                  onChange={actualizarState}
+                  value={contact.celular}
+                  onChange={updateState}
                 />
               </div>
 
@@ -157,15 +155,15 @@ const NewContact = () => {
                   id="direccion"
                   name="direccion"
                   placeholder="Dirección"
-                  value={contacto.direccion}
-                  onChange={actualizarState}
+                  value={contact.direccion}
+                  onChange={updateState}
                 />
               </div>
               <button
                 type="submit"
                 className="btn btn-primary mt-3 w-100 p-3 text-uppercase font-weight-bold"
               >
-                {editar ? "Editar" : "Agregar"}
+                {edit ? "Editar" : "Agregar"}
               </button>
             </form>
           </div>

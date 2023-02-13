@@ -7,13 +7,11 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 body {
-  background: #aa076b;
-  background: -webkit-linear-gradient(to right, #61045f, #aa076b);
-  background: linear-gradient(to right, #61045f, #aa076b);
+  background-image: url("./assets/cover.jpg");
   font-size: 1.6rem;
 }
 
@@ -24,7 +22,7 @@ h1 {
 }
 
 h3 {
-  color: #aa076b;
+  color: #631963;
   font-size: 2.4rem;
 }
 

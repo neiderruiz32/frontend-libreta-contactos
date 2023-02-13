@@ -1,37 +1,37 @@
 import clienteAxios from "../config/axios";
 
-export const cargarContactos = async () => {
+export const loadContacts = async () => {
   return await clienteAxios
-    .get("/contact-book")
+    .get("/contacts")
     .then((respuesta) => respuesta)
     .catch((error) => console.log(error));
 };
 
-export const cargarContacto = async (id: number) => {
+export const loadContact = async (id: number) => {
   return await clienteAxios
-    .get(`/contact-book/${id}`)
+    .get(`/contacts/${id}`)
 
     .then((respuesta) => respuesta)
     .catch((error) => console.log(error));
 };
 
-export const crearContacto = async (datos: Object) => {
+export const createContact = async (datos: Object) => {
   return await clienteAxios
-    .post("/contact-book", datos)
+    .post("/contacts", datos)
     .then((respuesta) => respuesta)
     .catch((error) => console.log(error));
 };
 
-export const editarContacto = async (id: number, datos: Object) => {
+export const editContact = async (id: number, datos: Object) => {
   return await clienteAxios
-    .put(`/contact-book/${id}`, datos)
+    .put(`/contacts/${id}`, datos)
     .then((respuesta) => respuesta)
     .catch((error) => console.log(error));
 };
 
 export const deleteContact = async (id: number) => {
   return await clienteAxios
-    .delete(`/contact-book/${id}`)
+    .delete(`/contacts/${id}`)
     .then((respuesta) => respuesta)
     .catch((error) => console.log(error));
 };
